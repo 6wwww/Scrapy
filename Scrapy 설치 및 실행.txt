@@ -1,0 +1,310 @@
+1. Anaconda3 설치(OS - Window 11) (in Anaconda Powershell Prompt)
+
+ 1) 확인 : python -V
+
+
+
+2. Scrapy 설치 (in Anaconda Powershell Prompt)
+
+ 1) 설치 : conda install -c scrapinghub scrapy
+
+ 2) 확인 : conda list
+
+
+
+3. Scrapy Shell 실습 (in Anaconda Powershell Prompt)
+
+ 1) 설치 : scrapy shell
+
+ 2-1) Starting Point 설정 : fetch('http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001')
+
+ 2-2) 응답 : 2022-03-01 22:36:54 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://news.naver.com/main/list.naver?mode=LSD&mid=sec&sid1=001> (referer: None)
+
+ 3-1) 확인 : view(response)
+
+ 3-2) 응답 : 기본 브라우저로 해당 페이지 실행 
+
+ 4) 소스 출력 : print(response.text)
+
+ 5) crawling - title
+
+  (1-1) 뉴스 제목 XPath 복사
+
+  (1-2) 결과 : 첫 번째 뉴스 //*[@id="main_content"]/div[2]/ul[1]/li[1]/dl/dt[2]/a
+
+  (1-3) 결과 : 두 번째 뉴스 //*[@id="main_content"]/div[2]/ul[1]/li[2]/dl/dt[2]/a​
+
+  (1-4) 결과 : 마지막 뉴스 //*[@id=”main_content”]/div[2]/ul[2]/li[10]/dl/dt[2]/a
+
+  (1-5) crawling : response.xpath('//*[@id="main_content"]/div[2]/ul/li/dl/dt[2]/a/text()').extract()
+
+  (1-6) 응답 : ['\n\t\t\t\t\t\t\t\t SPAIN GOVERNMENT\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t South Africa Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Serbia Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t (LEAD) Lee-minor presidential candidate\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t [게임황제 김정주 별세] 한국 3위 부호 김정주… “부자로 보는 시선 싫다”\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 표철수 등 홍준표 경선캠프 인사 일부, 이재명 지지선언\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Serbia Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Romania Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Lithuania Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t Lithuania Russia Ukraine War\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t SWITZERLAND UN HUMAN RIGHTS COUNCIL\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 칭다오총영사관 "윤봉길 의사 체류지 표지석 설치 추진"(종합)\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 러시아 외무장관 발언하자 세계 각국 외교관들 ‘퇴장 시위’\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 우크라이나를 위한 ‘평화의 빛’ [청계천 옆 사진관]\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 이재명·김동연 "통합정부·국민내각 합의" 사실상 단일화 선언\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 9시까지 확진자 20만명…이미 역대 최다 넘겨\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 이정헌 넥슨 대표 "사랑받는 회사 꿈꾸던 김정주 사장님의 뜻 이어갈 것"\n\t\t\t\t\t\t\t\t',
+ '\n\t\t\t\t\t\t\t\t 천안-논산고속도로서 4중 추돌 사고…1명 중상·4명 경상\n\t\t\t\t\t\t\t\t']
+
+ 5) crawling - 뉴스 회사
+
+  (1-1) 뉴스 회사 CSS 복사
+
+  (1-2) 결과 : .writing
+
+  (1-3) crawling : response.css('.writing::text').extract()
+
+  (1-4) 응답 : ['EPA연합뉴스',
+ 'AP연합뉴스',
+ 'AP연합뉴스',
+ 'AP연합뉴스',
+ '연합뉴스',
+ '조선비즈',
+ '경향신문',
+ '뉴시스',
+ 'AP연합뉴스',
+ 'AP연합뉴스',
+ 'AP연합뉴스',
+ 'AP연합뉴스',
+ 'EPA연합뉴스',
+ '연합뉴스',
+ '한겨레',
+ '동아일보',
+ '시사저널',
+ '이데일리',
+ '뉴스1',
+ 'SBS']
+
+ 5) crawling - 미리보기
+
+  (1-1) 미리보기 CSS 복사
+
+  (1-2) 결과 : .lede
+
+  (1-3) crawling : response.css('.lede::text').extract()
+
+  (1-4) 응답 : ['Press conference held after the cabinet meeting in Madrid Spanish Econo …',
+ '5773da8e8e07489fbc21790739db47c0 Ukrainian emergency service personnel  …',
+ "7f081cbba7cf4614bf19c642c97dfa90 Ukrainians protest against Russia's in …",
+ '4dd7458f28064bf78b4d39dcf1ab66e1 People hold the Ukrainian flag as they …',
+ '(LEAD) Lee on course to merge campaigns with minor presidential candida …',
+ '2021년 6월 기준 포브스 발표 자유분방한 성격의 은둔의 경영자 장애 아동 재활치료 등 사회공헌 집중 고(故) 김정주 NXC( …',
+ '[경향신문] 국제 금융거래 불가…우회 거래 땐 투명성 떨어지고 비용 대폭 증가 수출입 기업들, 원자재 수급 불안·물가 상승 우려 …',
+ '기사내용 요약 표철수 전 방송통신위원회 부위원장, 민주당 선대위 언론혁신특보단장에 홍준표 서포터즈 부산 대표인 구상용씨와 홍준표 …',
+ 'd60af7160f164740b5c899c9f331911e A woman holds a banner that reads "Sto …',
+ 'b0f1a913dd554c4aa63b12e9b15d0f27 A refugee that fled the conflict from  …',
+ 'fbe1a29730cb44afa1e68dbcf5630a38 People take part in a protest against  …',
+ '7be54b8f7e0b4282847079e7d04be72a A woman takes part in a protest agains …',
+ 'United Nations Human Rights Council in Geneva Martin Griffiths, left, U …',
+ '베이징서 한국인회 주최로 삼일절 기념식 (베이징=연합뉴스) 조준형 특파원 = 중국 칭다오(靑島) 주재 한국 총영사관(총영사  김경 …',
+ '러시아 외무장관이 유엔(UN) 회의에서 발언하자 세계 각국 외교관들이 러시아의 우크라이나 침공에 대한 항의 표시로 잇따라  퇴장하 …',
+ '전쟁으로 고통받는 우크라이나 국민을 위로하고 반전(反戰) 메시지를 전하기 위해 전국 곳곳에서 ‘평화의 빛’ 캠페인이 진행됐다.  …',
+ '대통령 임기 1년 단축·제7공화국 개헌안 추진키로 김종인에 연일 러브콜…反尹연대 구축하는 與 이재명 더불어민주당 대선후 보와 김동 …',
+ '1일 서울역에 마련된 코로나19 선별검사소에 PCR 검사를 받으려는 시민들이 줄을 서서 기다리고 있다.(사진=연합뉴스) [이데일 …',
+ '(서울=뉴스1) 김근욱 기자 = 이정헌 넥슨 대표가 김정주 넥슨 창업자의 별세 소식에 "이 글을 쓰고 있는 지금 이 슬픔을 이루 …',
+ '오늘(1일) 오후 3시 16분쯤, 천안-논산고속도로 상행선 정안휴게소 가기 1km 전 화물차와 차량 4대가 연이어 추돌하는 사고 …']
+
+(exit로 빠져나오기)
+
+
+
+4. scrapy project 생성
+
+ 1-1) 생성 : scrapy startproject naverscraper
+
+ 1-2) 응답 : New Scrapy project 'naverscraper', using template directory 'C:\Anaconda3\lib\site-packages\scrapy\templates\project', created in:
+    C:\Users\sky95\naverscraper
+
+ 1-3) spiders 폴더 : ls naverscraper > cd naverscraper > ls naverscraper > cd naverscraper > ls > cd spiders
+
+ 1-4) Spider 생성
+
+  (1-1) newsbot 생성 : scrapy genspider newsbot 'news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001'
+
+  (1-2) 응답 : Created spider 'newsbot' using template 'basic' in module:
+  naverscraper.spiders.newsbot
+
+ 1-5) newsbot.py에 소스 입력 : import scrapy
+
+
+class NewsbotSpider(scrapy.Spider):
+    name = 'newsbot'
+    allowed_domains = ['news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001']
+    start_urls = ['http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001/']
+
+    def parse(self, response):
+titles = response.xpath('//*[@id="main_content"]/div[2]/ul/li/dl/dt[2]/a/text()').extract()
+authors = response.css('.writing::text').extract()
+previews = response.css('.lede::text').extract()
+
+for item in zip(titles, authors, previews):
+scraped_info = {
+'title' : item[0].strip(),
+'author' : item[1].strip(),
+'preview' : item[2].strip(),
+}
+yield scraped_info
+
+ 1-6) newsbot 실행 : scrapy crawl newsbot
+
+ 1-7) CSV로 내보내기
+
+  (1) settings.py에 입력 : FEED_FORMAT = "csv"
+   FEED_URI = "naver_news.csv"
+
+  (2) Spider 재실행 : scrapy crawl newsbot
+
+  (3) 응답 : 2022-03-05 00:08:23 [scrapy.utils.log] INFO: Scrapy 2.4.1 started (bot: naverscraper)
+2022-03-05 00:08:23 [scrapy.utils.log] INFO: Versions: lxml 4.6.3.0, libxml2 2.9.12, cssselect 1.1.0, parsel 1.5.2, w3lib 1.21.0, Twisted 21.7.0, Python 3.9.7 (default, Sep 16 2021, 16:59:28) [MSC v.1916 64 bit (AMD64)], pyOpenSSL 21.0.0 (OpenSSL 1.1.1l  24 Aug 2021), cryptography 3.4.8, Platform Windows-10-10.0.22000-SP0
+2022-03-05 00:08:23 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.selectreactor.SelectReactor
+2022-03-05 00:08:23 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'naverscraper',
+ 'NEWSPIDER_MODULE': 'naverscraper.spiders',
+ 'ROBOTSTXT_OBEY': True,
+ 'SPIDER_MODULES': ['naverscraper.spiders']}
+2022-03-05 00:08:23 [scrapy.extensions.telnet] INFO: Telnet Password: e83afc78ea74529e
+2022-03-05 00:08:23 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2022-03-05 00:08:23 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2022-03-05 00:08:23 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2022-03-05 00:08:23 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2022-03-05 00:08:23 [scrapy.core.engine] INFO: Spider opened
+2022-03-05 00:08:23 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2022-03-05 00:08:23 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2022-03-05 00:08:23 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://news.naver.com/robots.txt> from <GET http://news.naver.com/robots.txt>
+2022-03-05 00:08:23 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://news.naver.com/robots.txt> (referer: None)
+2022-03-05 00:08:23 [scrapy.downloadermiddlewares.robotstxt] DEBUG: Forbidden by robots.txt: <GET http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001>
+2022-03-05 00:08:24 [scrapy.core.engine] INFO: Closing spider (finished)
+2022-03-05 00:08:24 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/exception_count': 1,
+ 'downloader/exception_type_count/scrapy.exceptions.IgnoreRequest': 1,
+ 'downloader/request_bytes': 456,
+ 'downloader/request_count': 2,
+ 'downloader/request_method_count/GET': 2,
+ 'downloader/response_bytes': 422,
+ 'downloader/response_count': 2,
+ 'downloader/response_status_count/200': 1,
+ 'downloader/response_status_count/302': 1,
+ 'elapsed_time_seconds': 0.271596,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2022, 3, 4, 15, 8, 24, 81719),
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 10,
+ 'response_received_count': 1,
+ 'robotstxt/forbidden': 1,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2022, 3, 4, 15, 8, 23, 810123)}
+2022-03-05 00:08:24 [scrapy.core.engine] INFO: Spider closed (finished)
+(base) PS C:\Users\sky95\naverscraper\naverscraper\spiders> scrapy crawl newsbot
+2022-03-05 00:08:56 [scrapy.utils.log] INFO: Scrapy 2.4.1 started (bot: naverscraper)
+2022-03-05 00:08:56 [scrapy.utils.log] INFO: Versions: lxml 4.6.3.0, libxml2 2.9.12, cssselect 1.1.0, parsel 1.5.2, w3lib 1.21.0, Twisted 21.7.0, Python 3.9.7 (default, Sep 16 2021, 16:59:28) [MSC v.1916 64 bit (AMD64)], pyOpenSSL 21.0.0 (OpenSSL 1.1.1l  24 Aug 2021), cryptography 3.4.8, Platform Windows-10-10.0.22000-SP0
+2022-03-05 00:08:56 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.selectreactor.SelectReactor
+2022-03-05 00:08:56 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'naverscraper',
+ 'NEWSPIDER_MODULE': 'naverscraper.spiders',
+ 'ROBOTSTXT_OBEY': True,
+ 'SPIDER_MODULES': ['naverscraper.spiders']}
+2022-03-05 00:08:56 [scrapy.extensions.telnet] INFO: Telnet Password: ef569bedc5fb52bd
+2022-03-05 00:08:56 [py.warnings] WARNING: C:\Anaconda3\lib\site-packages\scrapy\extensions\feedexport.py:247: ScrapyDeprecationWarning: The `FEED_URI` and `FEED_FORMAT` settings have been deprecated in favor of the `FEEDS` setting. Please see the `FEEDS` setting docs for more details
+  exporter = cls(crawler)
+
+2022-03-05 00:08:56 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.feedexport.FeedExporter',
+ 'scrapy.extensions.logstats.LogStats']
+2022-03-05 00:08:57 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2022-03-05 00:08:57 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2022-03-05 00:08:57 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2022-03-05 00:08:57 [scrapy.core.engine] INFO: Spider opened
+2022-03-05 00:08:57 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2022-03-05 00:08:57 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2022-03-05 00:08:57 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://news.naver.com/robots.txt> from <GET http://news.naver.com/robots.txt>
+2022-03-05 00:08:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://news.naver.com/robots.txt> (referer: None)
+2022-03-05 00:08:57 [scrapy.downloadermiddlewares.robotstxt] DEBUG: Forbidden by robots.txt: <GET http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=001>
+2022-03-05 00:08:57 [scrapy.core.engine] INFO: Closing spider (finished)
+2022-03-05 00:08:57 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/exception_count': 1,
+ 'downloader/exception_type_count/scrapy.exceptions.IgnoreRequest': 1,
+ 'downloader/request_bytes': 456,
+ 'downloader/request_count': 2,
+ 'downloader/request_method_count/GET': 2,
+ 'downloader/response_bytes': 422,
+ 'downloader/response_count': 2,
+ 'downloader/response_status_count/200': 1,
+ 'downloader/response_status_count/302': 1,
+ 'elapsed_time_seconds': 0.283873,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2022, 3, 4, 15, 8, 57, 357912),
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 10,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'robotstxt/forbidden': 1,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2022, 3, 4, 15, 8, 57, 74039)}
+2022-03-05 00:08:57 [scrapy.core.engine] INFO: Spider closed (finished)
+
+엑셀에 아무 값도 나오지 않음..............
